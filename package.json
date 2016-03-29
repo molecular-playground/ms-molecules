@@ -1,0 +1,19 @@
+{
+  "name": "ms-molecules",
+  "version": "0.0.1",
+  "description": "Molecule Uploading and Querying Service",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molecular-playground/ms-molecules.git"
+  },
+  "author": "Aaron Kaplowitz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/molecular-playground/ms-molecules/issues"
+  },
+  "homepage": "https://github.com/molecular-playground/ms-molecules#readme"
+}
