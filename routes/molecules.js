@@ -4,15 +4,16 @@ var db = require('../lib/db.js');
 
 // edit user
 router.get('/', function(req, res, next){
-  var query = "SELECT name, link FROM molecules";
-  db.query({text: query}. function (err, results) {
+  var query = "SELECT name, link FROM Molecules";
+  db.query({text: query}, function (err, results) {
     if (err) {
       next(err);
       return;
     }
-    
+    else {
+      res.send({success: true, message: results.rows});
+    }
   });
 });
 
-router.post('/', auth, function(req, res, next))
 module.exports = router;
