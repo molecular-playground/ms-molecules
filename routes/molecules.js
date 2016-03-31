@@ -12,9 +12,14 @@ router.get('/', function(req, res, next){
       return;
     }
     else {
-      var moleculeEntries = results.rows;
+      /* Go through each molecule and prepend
+       * the beginning of the URL to it.
+       * The expected value that
+       * `molecule.link` holds is a FILENAME,
+       * NOT A URL.
+       */
       var moleculesWithURL = []
-      for (molecule of moleculeEntries) {
+      for (molecule of results.rows) {
         molecule.link = MS_HOSTING_URL + molecule.link;
         moleculesWithURL.push(molecule);
       }
