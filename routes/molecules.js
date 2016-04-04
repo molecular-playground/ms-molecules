@@ -5,7 +5,7 @@ var MS_HOSTING_URL = 'http://mshosting:3000/';
 
 // edit user
 router.get('/', function(req, res, next){
-  var query = "SELECT name, link FROM Molecules";
+  var query = "SELECT mid, name, link FROM Molecules";
   db.query({text: query}, function (err, results) {
     if (err) {
       next(err);
