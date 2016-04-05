@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
 // whose name is "like" the one passed to this route.
 router.get('/:name', function(req, res, next) {
   var name = req.params.name;
-  var query = 'SELECT * FROM molecules WHERE name LIKE $1';
+  var query = "SELECT * FROM molecules WHERE name LIKE $1";
   db.query({text: query, values: ['%name%']}, function(err, results) {
     if (err) {
       next(err);
