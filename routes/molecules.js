@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../lib/db.js');
+
+var multer = require('multer');
+var uploading = multer({
+  dest: __dirname + '../public/'
+});
+
 var MS_HOSTING_URL = 'http://mshosting:3000/';
 
 // get the list of all molecules
@@ -19,7 +25,7 @@ router.get('/', function(req, res, next) {
        * NOT A URL.
        */
       var moleculesWithURL = []
-      for (molecule of results.rows) {
+      for (var molecule of results.rows) {
         molecule.link = MS_HOSTING_URL + molecule.link;
         moleculesWithURL.push(molecule);
       }
@@ -45,6 +51,19 @@ router.get('/:name', function(req, res, next) {
     }
     res.send({success: true, message: molecules});
   });
+});
+
+//serve static files
+router.get('/files/',express.static('public'));
+
+//upload static files
+router.post('/upload/',uploading.single('upl'), function(req,res,next){
+  if(req.file){
+    res.send({success: true, message: req.file.filename});
+  }
+  else {
+    next();
+  }
 });
 
 module.exports = router;
