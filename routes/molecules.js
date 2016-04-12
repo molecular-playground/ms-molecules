@@ -59,7 +59,15 @@ router.get('/files/',express.static('public'));
 //upload static files
 router.post('/upload/',uploading.single('upl'), function(req,res,next){
   if(req.file){
-    res.send({success: true, message: req.file.filename});
+    var name = req.query.name;
+    var filename = req.file.filename;
+    var type = req.query.type;
+    var query = "INSERT INTO molecules(name, link, data_type) VALUES($1, $2, $3)";
+    db.query({text: query, values: [name,filename,type]}, function(err, results) {
+      if(err){
+        next(err);
+      }else res.send({success: true, message: req.file.filename});
+    });
   }
   else {
     next();
