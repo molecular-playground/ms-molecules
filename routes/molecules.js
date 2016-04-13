@@ -33,6 +33,7 @@ router.get('/', function(req, res, next) {
     }
   });
 });
+
 // Gets the molecules from the database
 // whose name is "like" the one passed to this route.
 router.get('/:name', function(req, res, next) {
@@ -52,9 +53,6 @@ router.get('/:name', function(req, res, next) {
     res.send({success: true, message: molecules});
   });
 });
-
-//serve static files
-router.get('/files/',express.static('public'));
 
 //upload static files
 router.post('/upload', uploading.single('molecule'), function(req,res,next) {

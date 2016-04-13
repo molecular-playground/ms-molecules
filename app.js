@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/files', express.static('public'));
 app.use('/', molecules);
 
 // catch 404 and forward to error handler
