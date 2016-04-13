@@ -4,7 +4,7 @@ var db = require('../lib/db.js');
 
 var multer = require('multer');
 var uploading = multer({
-  dest: __dirname + '../public/'
+  dest: 'public/'
 });
 
 var MS_HOSTING_URL = 'http://mshosting:3000/';
@@ -57,7 +57,7 @@ router.get('/:name', function(req, res, next) {
 router.get('/files/',express.static('public'));
 
 //upload static files
-router.post('/upload/',uploading.single('upl'), function(req,res,next){
+router.post('/upload',uploading.single('upl'), function(req,res,next){
   if(req.file){
     var name = req.query.name;
     var filename = req.file.filename;
