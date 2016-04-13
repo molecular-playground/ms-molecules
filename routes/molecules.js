@@ -57,16 +57,18 @@ router.get('/:name', function(req, res, next) {
 router.get('/files/',express.static('public'));
 
 //upload static files
-router.post('/upload',uploading.single('upl'), function(req,res,next){
-  if(req.file){
-    var name = req.query.name;
+router.post('/upload', uploading.single('molecule'), function(req,res,next) {
+  if(req.file) {
+    var name = req.body.name;
     var filename = req.file.filename;
-    var type = req.query.type;
+    var type = req.body.type;
     var query = "INSERT INTO molecules(name, link, data_type) VALUES($1, $2, $3)";
     db.query({text: query, values: [name,filename,type]}, function(err, results) {
-      if(err){
+      if(err) {
         next(err);
-      }else res.send({success: true, message: req.file.filename});
+      } else {
+        res.send({success: true, message: req.file.filename});
+      }
     });
   }
   else {
