@@ -13,7 +13,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/files', express.static('public'));
+// make sure we serve text/plain for 3Dmol.js
+app.use('/files', express.static('public', {
+  setHeaders: function(res, path) {
+    res.header("Content-Type", "text/plain");
+  }
+}));
 app.use('/', molecules);
 
 // catch 404 and forward to error handler
