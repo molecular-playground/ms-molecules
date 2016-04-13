@@ -7,7 +7,7 @@ var uploading = multer({
   dest: 'public/'
 });
 
-var MS_HOSTING_URL = 'http://mshosting:3000/';
+var MS_HOSTING_URL = 'http://104.236.54.250:8000/api/molecule/files/';
 
 // get the list of all molecules
 router.get('/', function(req, res, next) {
