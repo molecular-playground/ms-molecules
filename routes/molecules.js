@@ -64,13 +64,13 @@ router.post('/upload', authadmin, uploading.single('molecule'), function(req,res
     fs.rename('public/' + filename, 'public/' + name + '.' + type, function(err){
       if(err) next(err);
       else{
-        filename = name;
+        filename = name +'.' + type;
         var query = "INSERT INTO molecules(name, link, data_type) VALUES($1, $2, $3)";
         db.query({text: query, values: [name,filename,type]}, function(err, results) {
           if(err) {
             next(err);
           } else {
-            res.send({success: true, message: req.file.filename});
+            res.send({success: true, message: filename});
           }
         });
       }
