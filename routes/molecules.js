@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../lib/db.js');
-
+var fs = require('fs');
+var authadmin = require('../lib/authadmin.js');
 var multer = require('multer');
 var uploading = multer({
   dest: 'public/'
@@ -11,7 +12,7 @@ var MS_HOSTING_URL = 'http://104.236.54.250:8000/api/molecule/files/';
 
 // get the list of all molecules
 router.get('/', function(req, res, next) {
-  var query = "SELECT mid, name, link FROM Molecules";
+  var query = "SELECT * FROM Molecules";
   db.query({text: query}, function (err, results) {
     if (err) {
       next(err);
@@ -55,17 +56,23 @@ router.get('/:name', function(req, res, next) {
 });
 
 //upload static files
-router.post('/upload', uploading.single('molecule'), function(req,res,next) {
+router.post('/upload', authadmin, uploading.single('molecule'), function(req,res,next) {
   if(req.file) {
     var name = req.body.name;
     var filename = req.file.filename;
     var type = req.body.type;
-    var query = "INSERT INTO molecules(name, link, data_type) VALUES($1, $2, $3)";
-    db.query({text: query, values: [name,filename,type]}, function(err, results) {
-      if(err) {
-        next(err);
-      } else {
-        res.send({success: true, message: req.file.filename});
+    fs.rename('public/' + filename, 'public/' + name + '.' + type, function(err){
+      if(err) next(err);
+      else{
+        filename = name;
+        var query = "INSERT INTO molecules(name, link, data_type) VALUES($1, $2, $3)";
+        db.query({text: query, values: [name,filename,type]}, function(err, results) {
+          if(err) {
+            next(err);
+          } else {
+            res.send({success: true, message: req.file.filename});
+          }
+        });
       }
     });
   }
