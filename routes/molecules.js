@@ -3,12 +3,13 @@ var router = express.Router();
 var db = require('../lib/db.js');
 var fs = require('fs');
 var authadmin = require('../lib/authadmin.js');
+var SERVER_URL = process.env.SERVER_URL;
+var HOSTING_URL = 'http://' + SERVER_URL + ':8000/api/molecules/files/';
+
 var multer = require('multer');
 var uploading = multer({
   dest: 'public/'
 });
-
-var MS_HOSTING_URL = 'http://104.236.54.250:8000/api/molecule/files/';
 
 // get the list of all molecules
 router.get('/', function(req, res, next) {
@@ -27,7 +28,7 @@ router.get('/', function(req, res, next) {
        */
       var moleculesWithURL = []
       for (var molecule of results.rows) {
-        molecule.link = MS_HOSTING_URL + molecule.link;
+        molecule.link = HOSTING_URL + molecule.link;
         moleculesWithURL.push(molecule);
       }
       res.send({success: true, message: moleculesWithURL});
@@ -45,13 +46,18 @@ router.get('/:name', function(req, res, next) {
       next(err);
       return;
     }
-    // Return the molecules that have matched.
-    var molecules = [];
+    /* Go through each molecule and prepend
+     * the beginning of the URL to it.
+     * The expected value that
+     * `molecule.link` holds is a FILENAME,
+     * NOT A URL.
+     */
+    var moleculesWithURL = [];
     for (molecule of results.rows) {
-      molecule.link = MS_HOSTING_URL + molecule.link;
-      molecules.push(molecule);
+      molecule.link = HOSTING_URL + molecule.link;
+      moleculesWithURL.push(molecule);
     }
-    res.send({success: true, message: molecules});
+    res.send({success: true, message: moleculesWithURL});
   });
 });
 
