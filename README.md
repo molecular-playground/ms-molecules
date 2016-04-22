@@ -22,7 +22,7 @@ SERVER_URL=YOUR_VALUE_HERE
 
 To make sure everything works correctly, make sure you use the same values for each microservice you are using. This can be easily done by using the same molecular-playground.env file.
 
-### To Run (Production)
+### To Run Manually (Production)
 Before we begin, make sure you have the database running in a container. You can find instructions on how to do that [here](https://github.com/Molecular-Playground/databaes). From inside docker virtual machine, navigate to the top directory of this repository. Enter the following commands:
 ```
 docker build -t molecules .
@@ -43,7 +43,7 @@ docker logs -f molecules
 docker restart -t=0 molecules
 ```
 
-### To Run (Development)
+### To Run Manually (Development)
 The easiest way to develop using the docker container is to mount your working directory as a volume. Before we begin, you will still need to make sure you have the database running in a container. You can find instructions on how to do that [here](https://github.com/Molecular-Playground/databaes). From inside docker virtual machine, navigate to the top directory of this repository. Enter the following commands:
 ```
 docker build -t molecules .
