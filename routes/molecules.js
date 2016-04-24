@@ -87,4 +87,23 @@ router.post('/upload', authadmin, uploading.single('molecule'), function(req,res
   }
 });
 
+//delete molecule route
+router.delete('/', authadmin, function(req,res,next){
+  var name = req.body.name;
+  var query = "DELETE FROM molecules WHERE name = $1 RETURNING filename";
+  db.query({text: query, values: [name]}, function(err, results) {
+    if(err) next(err);
+    else if(results.rows.length < 1) {
+      var err = new Error('Not Found');
+      err.status = 404;
+      next(err);
+    }
+    else{
+      fs.unlink('public/' + results.rows[0].filename);
+      res.send({success: true});
+    }
+  });
+
+});
+
 module.exports = router;
